@@ -50,12 +50,12 @@ const getFiles = async (
  * @type { typeof import("../../index").directoryOpen }
  */
 export default async (options = {}, setCurrentScannedFile) => {
+  console.log('props:', { options, setCurrentScannedFile });
   options.recursive = options.recursive || false;
   const handle = await window.showDirectoryPicker({
     id: options.id,
     startIn: options.startIn,
   });
-  setCurrentScannedFile(handle);
   return getFiles(
     handle,
     options.recursive,
