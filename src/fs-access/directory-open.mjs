@@ -29,7 +29,7 @@ const getFiles = async (
 
     if (entry.kind === 'file') {
       const filePath = entry.name.split('.').pop();
-      if (fileTypes.length && !fileTypes.includes(filePath)) continue;
+      if (fileTypes.length && !fileTypes.includes(filePath.toLowerCase())) continue;
       files.push(
         entry.getFile().then((file) => {
           file.directoryHandle = dirHandle;
