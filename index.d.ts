@@ -155,7 +155,7 @@ export function directoryOpen(options?: {
   setupLegacyCleanupAndRejection?: (
     rejectionHandler?: () => void
   ) => (reject: (reason?: any) => void) => void;
-}): Promise<FileWithDirectoryHandle[]>;
+}, setCurrentScannedFile: (file: any) => void): Promise<FileWithDirectoryHandle[]>;
 
 /**
  * Whether the File System Access API is supported.

@@ -15,7 +15,7 @@
  */
 // @license © 2020 Google LLC. Licensed under the Apache License, Version 2.0.
 
-const getFiles = async (dirHandle, recursive, path = dirHandle.name) => {
+const getFiles = async (dirHandle, recursive, path = dirHandle.name, setCurrentScannedFile) => {
   const dirs = [];
   const files = [];
   for await (const entry of dirHandle.values()) {
@@ -31,6 +31,8 @@ const getFiles = async (dirHandle, recursive, path = dirHandle.name) => {
           });
         })
       );
+      if (setCurrentScannedFile)
+        setCurrentScannedFile(entry.name)
     } else if (entry.kind === 'directory' && recursive) {
       dirs.push(getFiles(entry, recursive, nestedPath));
     }
@@ -42,11 +44,11 @@ const getFiles = async (dirHandle, recursive, path = dirHandle.name) => {
  * Opens a directory from disk using the File System Access API.
  * @type { typeof import("../../index").directoryOpen }
  */
-export default async (options = {}) => {
+export default async (options = {}, setCurrentScannedFile) => {
   options.recursive = options.recursive || false;
   const handle = await window.showDirectoryPicker({
     id: options.id,
     startIn: options.startIn,
   });
-  return getFiles(handle, options.recursive);
+  return getFiles(handle, options.recursive, setCurrentScannedFile);
 };
