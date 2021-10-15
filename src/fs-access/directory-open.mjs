@@ -36,12 +36,10 @@ const getFiles = async (
           });
         })
       );
-      console.log({ setCurrentScannedFile, name: entry.name });
-      if (setCurrentScannedFile) {
-        setCurrentScannedFile(entry.name);
-      }
+
+      if (setCurrentScannedFile) setCurrentScannedFile(entry.name);
     } else if (entry.kind === 'directory' && recursive) {
-      dirs.push(getFiles(entry, recursive, nestedPath));
+      dirs.push(getFiles(entry, recursive, nestedPath, setCurrentScannedFile));
     }
   }
   return [...(await Promise.all(dirs)).flat(), ...(await Promise.all(files))];
@@ -57,5 +55,11 @@ export default async (options = {}, setCurrentScannedFile) => {
     id: options.id,
     startIn: options.startIn,
   });
-  return getFiles(handle, options.recursive, setCurrentScannedFile);
+  setCurrentScannedFile(handle);
+  return getFiles(
+    handle,
+    options.recursive,
+    handle.name,
+    setCurrentScannedFile
+  );
 };
