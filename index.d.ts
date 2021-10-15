@@ -157,7 +157,7 @@ export function directoryOpen(
       rejectionHandler?: () => void
     ) => (reject: (reason?: any) => void) => void;
   },
-  setCurrentScannedFile: (file: any) => void
+  setCurrentScannedFile?: (file: any) => void
 ): Promise<FileWithDirectoryHandle[]>;
 
 /**
