@@ -3,7 +3,7 @@
   "version": "0.20.5",
   "description": "File System Access API with legacy fallback in the browser.",
   "browser": "./dist/index.js",
-  "main": "./dist/index.js",
+  "main": "./dist/index",
   "exports": {
     ".": "./dist/index.js",
     "./package.json": "./package.json"
