@@ -24,32 +24,45 @@ const getFiles = async (
 ) => {
   const dirs = [];
   const files = [];
-  for await (const entry of dirHandle.values()) {
-    const nestedPath = `${path}/${entry.name}`;
+  try {
+    for await (const entry of dirHandle.values()) {
+      try {
+        const nestedPath = `${path}/${entry.name}`;
 
-    if (entry.kind === 'file') {
-      const filePath = entry.name.split('.').pop();
-      if (fileTypes.length && !fileTypes.includes(filePath.toLowerCase()))
-        continue;
-      files.push(
-        entry.getFile().then((file) => {
+        if (entry.kind === 'file') {
+          const filePath = entry.name.split('.').pop();
+          if (fileTypes.length && !fileTypes.includes(filePath.toLowerCase()))
+            continue;
+          setCurrentScannedFile(entry.name);
+          let file = await entry.getFile();
           file.directoryHandle = dirHandle;
-          return Object.defineProperty(file, 'webkitRelativePath', {
-            configurable: true,
-            enumerable: true,
-            get: () => nestedPath,
-          });
-        })
-      );
-
-      setCurrentScannedFile(entry.name);
-    } else if (entry.kind === 'directory' && recursive) {
-      dirs.push(
-        getFiles(entry, recursive, nestedPath, fileTypes, setCurrentScannedFile)
-      );
+          files.push(
+            Object.defineProperty(file, 'webkitRelativePath', {
+              configurable: true,
+              enumerable: true,
+              get: () => nestedPath,
+            })
+          );
+        } else if (entry.kind === 'directory' && recursive) {
+          dirs.push(
+            ...(await getFiles(
+              entry,
+              recursive,
+              nestedPath,
+              fileTypes,
+              setCurrentScannedFile
+            ))
+          );
+        }
+      } catch (e) {
+        console.log(e);
+      }
     }
+  } catch (e) {
+    console.log(e);
   }
-  return [...(await Promise.all(dirs)).flat(), ...(await Promise.all(files))];
+
+  return [...dirs, ...files];
 };
 
 /**
@@ -62,11 +75,12 @@ export default async (options = {}, fileTypes, setCurrentScannedFile) => {
     id: options.id,
     startIn: options.startIn,
   });
-  return getFiles(
+  let files = getFiles(
     handle,
     options.recursive,
     handle.name,
     fileTypes,
     setCurrentScannedFile
   );
+  return files;
 };

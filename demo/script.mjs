@@ -41,6 +41,8 @@ import { imageToBlob } from './image-to-blob.mjs';
   };
 
   const listDirectory = (blobs) => {
+
+    console.log('listDir running')
     let fileStructure = '';
     blobs
       .sort((a, b) => a.webkitRelativePath.localeCompare(b))
@@ -51,13 +53,13 @@ import { imageToBlob } from './image-to-blob.mjs';
       });
     pre.textContent += fileStructure;
 
-    blobs
-      .filter((blob) => {
-        return blob.type.startsWith('image/');
-      })
-      .forEach((blob) => {
-        appendImage(blob);
-      });
+    // blobs
+    //   .filter((blob) => {
+    //     return blob.type.startsWith('image/');
+    //   })
+    //   .forEach((blob) => {
+    //     appendImage(blob);
+    //   });
   };
 
   openButton.addEventListener('click', async () => {
@@ -128,6 +130,7 @@ import { imageToBlob } from './image-to-blob.mjs';
       const blobs = await directoryOpen({ recursive: true }, [], (s) => {
         console.log('Reporting from: ' + s);
       });
+      console.log(blobs)
       listDirectory(blobs);
     } catch (err) {
       if (err.name !== 'AbortError') {
