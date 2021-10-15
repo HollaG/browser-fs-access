@@ -15,7 +15,12 @@
  */
 // @license © 2020 Google LLC. Licensed under the Apache License, Version 2.0.
 
-const getFiles = async (dirHandle, recursive, path = dirHandle.name, setCurrentScannedFile) => {
+const getFiles = async (
+  dirHandle,
+  recursive,
+  path = dirHandle.name,
+  setCurrentScannedFile
+) => {
   const dirs = [];
   const files = [];
   for await (const entry of dirHandle.values()) {
@@ -31,8 +36,7 @@ const getFiles = async (dirHandle, recursive, path = dirHandle.name, setCurrentS
           });
         })
       );
-      if (setCurrentScannedFile)
-        setCurrentScannedFile(entry.name)
+      if (setCurrentScannedFile) setCurrentScannedFile(entry.name);
     } else if (entry.kind === 'directory' && recursive) {
       dirs.push(getFiles(entry, recursive, nestedPath));
     }

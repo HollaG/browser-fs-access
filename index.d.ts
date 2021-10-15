@@ -117,45 +117,48 @@ export function fileSave(
  * Opens a directory from disk using the File System Access API.
  * @returns Contained files.
  */
-export function directoryOpen(options?: {
-  /** Whether to recursively get subdirectories. */
-  recursive: boolean;
-  /** Suggested directory in which the file picker opens. */
-  startIn?: WellKnownDirectory | FileSystemHandle;
-  /** By specifying an ID, the user agent can remember different directories for different IDs. */
-  id?: string;
-  /**
-   * Configurable cleanup and `Promise` rejector usable with legacy API for
-   * determining when (and reacting if) a user cancels the operation. The
-   * method will be passed a reference to the internal `rejectionHandler` that
-   * can, e.g., be attached to/removed from the window or called after a
-   * timeout. The method should return a function that will be called when
-   * either the user chooses to open a file or the `rejectionHandler` is
-   * called. In the latter case, the returned function will also be passed a
-   * reference to the `reject` callback for the `Promise` returned by
-   * `fileOpen`, so that developers may reject the `Promise` when desired at
-   * that time.
-   * Example rejector:
-   *
-   * const file = await directoryOpen({
-   *   setupLegacyCleanupAndRejection: (rejectionHandler) => {
-   *     const timeoutId = setTimeout(rejectionHandler, 10_000);
-   *     return (reject) => {
-   *       clearTimeout(timeoutId);
-   *       if (reject) {
-   *         reject('My error message here.');
-   *       }
-   *     };
-   *   },
-   * });
-   *
-   * ToDo: Remove this workaround once
-   *   https://github.com/whatwg/html/issues/6376 is specified and supported.
-   */
-  setupLegacyCleanupAndRejection?: (
-    rejectionHandler?: () => void
-  ) => (reject: (reason?: any) => void) => void;
-}, setCurrentScannedFile: (file: any) => void): Promise<FileWithDirectoryHandle[]>;
+export function directoryOpen(
+  options?: {
+    /** Whether to recursively get subdirectories. */
+    recursive: boolean;
+    /** Suggested directory in which the file picker opens. */
+    startIn?: WellKnownDirectory | FileSystemHandle;
+    /** By specifying an ID, the user agent can remember different directories for different IDs. */
+    id?: string;
+    /**
+     * Configurable cleanup and `Promise` rejector usable with legacy API for
+     * determining when (and reacting if) a user cancels the operation. The
+     * method will be passed a reference to the internal `rejectionHandler` that
+     * can, e.g., be attached to/removed from the window or called after a
+     * timeout. The method should return a function that will be called when
+     * either the user chooses to open a file or the `rejectionHandler` is
+     * called. In the latter case, the returned function will also be passed a
+     * reference to the `reject` callback for the `Promise` returned by
+     * `fileOpen`, so that developers may reject the `Promise` when desired at
+     * that time.
+     * Example rejector:
+     *
+     * const file = await directoryOpen({
+     *   setupLegacyCleanupAndRejection: (rejectionHandler) => {
+     *     const timeoutId = setTimeout(rejectionHandler, 10_000);
+     *     return (reject) => {
+     *       clearTimeout(timeoutId);
+     *       if (reject) {
+     *         reject('My error message here.');
+     *       }
+     *     };
+     *   },
+     * });
+     *
+     * ToDo: Remove this workaround once
+     *   https://github.com/whatwg/html/issues/6376 is specified and supported.
+     */
+    setupLegacyCleanupAndRejection?: (
+      rejectionHandler?: () => void
+    ) => (reject: (reason?: any) => void) => void;
+  },
+  setCurrentScannedFile: (file: any) => void
+): Promise<FileWithDirectoryHandle[]>;
 
 /**
  * Whether the File System Access API is supported.
