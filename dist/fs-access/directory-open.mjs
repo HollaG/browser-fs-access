@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 // @license © 2020 Google LLC. Licensed under the Apache License, Version 2.0.
-const e=async(t,i,n=t.name,a=[],r)=>{const s=[],o=[];for await(const c of t.values()){const l=`${n}/${c.name}`;if("file"===c.kind){const e=c.name.split(".").pop();if(a.length&&!a.includes(e))continue;o.push(c.getFile().then((e=>(e.directoryHandle=t,Object.defineProperty(e,"webkitRelativePath",{configurable:!0,enumerable:!0,get:()=>l}))))),r(c.name)}else"directory"===c.kind&&i&&s.push(e(c,i,l,r))}return[...(await Promise.all(s)).flat(),...await Promise.all(o)]};
+const e=async(t,i,n=t.name,a=[],r)=>{const s=[],o=[];for await(const c of t.values()){const l=`${n}/${c.name}`;if("file"===c.kind){const e=c.name.split(".").pop();if(a.length&&!a.includes(e.toLowerCase()))continue;o.push(c.getFile().then((e=>(e.directoryHandle=t,Object.defineProperty(e,"webkitRelativePath",{configurable:!0,enumerable:!0,get:()=>l}))))),r(c.name)}else"directory"===c.kind&&i&&s.push(e(c,i,l,r))}return[...(await Promise.all(s)).flat(),...await Promise.all(o)]};
 /**
  * Opens a directory from disk using the File System Access API.
  * @type { typeof import("../../index").directoryOpen }
