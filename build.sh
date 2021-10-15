@@ -18,5 +18,5 @@
 
 for f in $(find ./src -type f \( -name \*.js -o -name \*.mjs \))
 do
-  npx terser --compress --mangle --comments /@license/ --ecma 8 --module --output ./dist/"${f//.\/src\//}" -- $f
+  npx terser --compress --mangle --comments [/@license/] --ecma 8 --module --output ./dist/"${f//.\/src\//}" -- $f
 done
