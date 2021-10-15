@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 // @license © 2020 Google LLC. Licensed under the Apache License, Version 2.0.
-const e=async(t,r,n=t.name,a)=>{const i=[],o=[];for await(const s of t.values()){const c=`${n}/${s.name}`;"file"===s.kind?(o.push(s.getFile().then((e=>(e.directoryHandle=t,Object.defineProperty(e,"webkitRelativePath",{configurable:!0,enumerable:!0,get:()=>c}))))),a(s.name)):"directory"===s.kind&&r&&i.push(e(s,r,c,a))}return[...(await Promise.all(i)).flat(),...await Promise.all(o)]};
+const e=async(t,i,n=t.name,a=[],r)=>{const s=[],o=[];for await(const c of t.values()){const l=`${n}/${c.name}`;if("file"===c.kind){const e=c.name.split(".").pop();if(a.length&&!a.includes(e))continue;o.push(c.getFile().then((e=>(e.directoryHandle=t,Object.defineProperty(e,"webkitRelativePath",{configurable:!0,enumerable:!0,get:()=>l}))))),r(c.name)}else"directory"===c.kind&&i&&s.push(e(c,i,l,r))}return[...(await Promise.all(s)).flat(),...await Promise.all(o)]};
 /**
  * Opens a directory from disk using the File System Access API.
  * @type { typeof import("../../index").directoryOpen }
- */export default async(t={},r)=>{console.log("props:",{options:t,setCurrentScannedFile:r}),t.recursive=t.recursive||!1;const n=await window.showDirectoryPicker({id:t.id,startIn:t.startIn});return e(n,t.recursive,n.name,r)};
+ */export default async(t={},i,n)=>{t.recursive=t.recursive||!1;const a=await window.showDirectoryPicker({id:t.id,startIn:t.startIn});return e(a,t.recursive,a.name,i,n)};

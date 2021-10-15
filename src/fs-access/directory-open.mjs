@@ -19,13 +19,17 @@ const getFiles = async (
   dirHandle,
   recursive,
   path = dirHandle.name,
+  fileTypes = [],
   setCurrentScannedFile
 ) => {
   const dirs = [];
   const files = [];
   for await (const entry of dirHandle.values()) {
     const nestedPath = `${path}/${entry.name}`;
+
     if (entry.kind === 'file') {
+      const filePath = entry.name.split('.').pop();
+      if (fileTypes.length && !fileTypes.includes(filePath)) continue;
       files.push(
         entry.getFile().then((file) => {
           file.directoryHandle = dirHandle;
@@ -49,8 +53,7 @@ const getFiles = async (
  * Opens a directory from disk using the File System Access API.
  * @type { typeof import("../../index").directoryOpen }
  */
-export default async (options = {}, setCurrentScannedFile) => {
-  console.log('props:', { options, setCurrentScannedFile });
+export default async (options = {}, fileTypes, setCurrentScannedFile) => {
   options.recursive = options.recursive || false;
   const handle = await window.showDirectoryPicker({
     id: options.id,
@@ -60,6 +63,7 @@ export default async (options = {}, setCurrentScannedFile) => {
     handle,
     options.recursive,
     handle.name,
+    fileTypes,
     setCurrentScannedFile
   );
 };
