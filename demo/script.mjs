@@ -41,8 +41,7 @@ import { imageToBlob } from './image-to-blob.mjs';
   };
 
   const listDirectory = (blobs) => {
-
-    console.log('listDir running')
+    console.log('listDir running');
     let fileStructure = '';
     blobs
       .sort((a, b) => a.webkitRelativePath.localeCompare(b))
@@ -127,10 +126,14 @@ import { imageToBlob } from './image-to-blob.mjs';
 
   openDirectoryButton.addEventListener('click', async () => {
     try {
-      const blobs = await directoryOpen({ recursive: true }, [], (s) => {
-        console.log('Reporting from: ' + s);
-      });
-      console.log(blobs)
+      const blobs = await directoryOpen(
+        { recursive: true },
+        ['jpg', 'png'],
+        (s) => {
+          console.log('Reporting from: ' + s);
+        }
+      );
+      console.log(blobs);
       listDirectory(blobs);
     } catch (err) {
       if (err.name !== 'AbortError') {

@@ -157,8 +157,10 @@ export function directoryOpen(
       rejectionHandler?: () => void
     ) => (reject: (reason?: any) => void) => void;
   },
+  /** Whether to only include files whose extensions (in lowercase) are specified in the array. **/
   fileTypes?: string[],
-  setCurrentScannedFile?: (file: any) => void
+  /** Optional function that will be called with the file name whenever a new file is found. Only applicable using the File System Access API. **/
+  setProgramStatus?: (file: string) => void
 ): Promise<FileWithDirectoryHandle[]>;
 
 /**

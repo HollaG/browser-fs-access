@@ -20,7 +20,11 @@
  * `<input type="file" webkitdirectory>` method.
  * @type { typeof import("../../index").directoryOpen }
  */
-export default async (options = [{}]) => {
+export default async (
+  options = [{}],
+  fileTypes = [],
+  setProgramStatus = (status) => {}
+) => {
   if (!Array.isArray(options)) {
     options = [options];
   }
@@ -42,11 +46,21 @@ export default async (options = [{}]) => {
         cleanupListenersAndMaybeReject();
       }
       let files = Array.from(input.files);
+      setProgramStatus('Retrieved files');
+      if (fileTypes.length) {
+        setProgramStatus('Filtering files');
+        files = files.filter((file) => {
+          return fileTypes.includes(file.name.split('.').pop().toLowerCase());
+        });
+      }
       if (!options[0].recursive) {
+        setProgramStatus('Filtering nested files');
         files = files.filter((file) => {
           return file.webkitRelativePath.split('/').length === 2;
         });
       }
+      setProgramStatus('Resolving files');
+
       resolve(files);
     });
 

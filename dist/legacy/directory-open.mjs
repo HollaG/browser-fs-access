@@ -19,7 +19,7 @@
  * `<input type="file" webkitdirectory>` method.
  * @type { typeof import("../../index").directoryOpen }
  */
-export default async(e=[{}])=>(Array.isArray(e)||(e=[e]),e[0].recursive=e[0].recursive||!1,new Promise(((t,r)=>{const i=document.createElement("input");
+export default async(e=[{}],t=[],i=(e=>{}))=>(Array.isArray(e)||(e=[e]),e[0].recursive=e[0].recursive||!1,new Promise(((n,r)=>{const l=document.createElement("input");
 // ToDo: Remove this workaround once
 // https://github.com/whatwg/html/issues/6376 is specified and supported.
-let n;i.type="file",i.webkitdirectory=!0;const c=()=>n(r);e[0].setupLegacyCleanupAndRejection&&(n=e[0].setupLegacyCleanupAndRejection(c)),i.addEventListener("change",(()=>{"function"==typeof n&&n();let r=Array.from(i.files);e[0].recursive||(r=r.filter((e=>2===e.webkitRelativePath.split("/").length))),t(r)})),i.click()})));
+let s;l.type="file",l.webkitdirectory=!0;const c=()=>s(r);e[0].setupLegacyCleanupAndRejection&&(s=e[0].setupLegacyCleanupAndRejection(c)),l.addEventListener("change",(()=>{"function"==typeof s&&s();let r=Array.from(l.files);i("Retrieved files"),t.length&&(i("Filtering files"),r=r.filter((e=>t.includes(e.name.split(".").pop().toLowerCase())))),e[0].recursive||(i("Filtering nested files"),r=r.filter((e=>2===e.webkitRelativePath.split("/").length))),i("Resolving files"),n(r)})),l.click()})));
