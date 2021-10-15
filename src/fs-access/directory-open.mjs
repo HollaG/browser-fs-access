@@ -36,7 +36,10 @@ const getFiles = async (
           });
         })
       );
-      if (setCurrentScannedFile) setCurrentScannedFile(entry.name);
+      console.log({ setCurrentScannedFile, name: entry.name });
+      if (setCurrentScannedFile) {
+        setCurrentScannedFile(entry.name);
+      }
     } else if (entry.kind === 'directory' && recursive) {
       dirs.push(getFiles(entry, recursive, nestedPath));
     }
