@@ -125,7 +125,7 @@ import { imageToBlob } from './image-to-blob.mjs';
 
   openDirectoryButton.addEventListener('click', async () => {
     try {
-      const blobs = await directoryOpen({ recursive: true }, (s) => {
+      const blobs = await directoryOpen({ recursive: true }, [], (s) => {
         console.log('Reporting from: ' + s);
       });
       listDirectory(blobs);

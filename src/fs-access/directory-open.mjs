@@ -44,7 +44,9 @@ const getFiles = async (
 
       setCurrentScannedFile(entry.name);
     } else if (entry.kind === 'directory' && recursive) {
-      dirs.push(getFiles(entry, recursive, nestedPath, setCurrentScannedFile));
+      dirs.push(
+        getFiles(entry, recursive, nestedPath, fileTypes, setCurrentScannedFile)
+      );
     }
   }
   return [...(await Promise.all(dirs)).flat(), ...(await Promise.all(files))];
