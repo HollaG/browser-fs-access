@@ -32,7 +32,7 @@ const getFiles = async (
         const nestedPath = `${path}/${entry.name}`;
 
         if (entry.kind === 'file') {
-          const filePath = "." + entry.name.split('.').pop().toLowerCase();
+          const filePath = '.' + entry.name.split('.').pop().toLowerCase();
           if (extensions.length && !extensions.includes(filePath)) continue;
           setProgramStatus(entry.name);
           const file = await promiseTimeoutMjs(1000, entry.getFile());

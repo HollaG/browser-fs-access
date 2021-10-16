@@ -21,7 +21,7 @@
  * @type { typeof import("../../index").directoryOpen }
  */
 export default async (
-  options = [{extensions: []}],
+  options = [{ extensions: [] }],
 
   setProgramStatus = (status) => {}
 ) => {
@@ -50,7 +50,9 @@ export default async (
       if (options.extensions.length) {
         setProgramStatus('Filtering files');
         files = files.filter((file) => {
-          return options.extensions.includes("." + file.name.split('.').pop().toLowerCase());
+          return options.extensions.includes(
+            '.' + file.name.split('.').pop().toLowerCase()
+          );
         });
       }
       if (!options[0].recursive) {
