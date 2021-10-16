@@ -73,11 +73,9 @@ const getFiles = async (
  * Example: ['jpg', 'png']
  * @type { typeof import("../../index").directoryOpen }
  */
-export default async (
-  options = { extensions: [] },
-  setProgramStatus = (status) => {}
-) => {
+export default async (options = {}, setProgramStatus = (status) => {}) => {
   options.recursive = options.recursive || false;
+  options.extensions = options.extensions || [];
   const handle = await window.showDirectoryPicker({
     id: options.id,
     startIn: options.startIn,

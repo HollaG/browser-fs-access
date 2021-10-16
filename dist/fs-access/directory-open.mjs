@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 // @license © 2020 Google LLC. Licensed under the Apache License, Version 2.0.
-import e from"../promiseTimeout.mjs";const t=async(n,o,i=n.name,r=[],s)=>{const a=[],c=[];try{for await(const l of n.values())try{const u=`${i}/${l.name}`;if("file"===l.kind){const t="."+l.name.split(".").pop().toLowerCase();if(r.length&&!r.includes(t))continue;s(l.name);const o=await e(1e3,l.getFile());o.directoryHandle=n,c.push(Object.defineProperty(o,"webkitRelativePath",{configurable:!0,enumerable:!0,get:()=>u}))}else"directory"===l.kind&&o&&a.push(...await t(l,o,u,r,s))}catch(e){console.log(e)}}catch(e){console.log(e)}return[...a,...c]};
+import e from"../promiseTimeout.mjs";const t=async(n,o,i=n.name,s=[],r)=>{const a=[],c=[];try{for await(const l of n.values())try{const u=`${i}/${l.name}`;if("file"===l.kind){const t="."+l.name.split(".").pop().toLowerCase();if(s.length&&!s.includes(t))continue;r(l.name);const o=await e(1e3,l.getFile());o.directoryHandle=n,c.push(Object.defineProperty(o,"webkitRelativePath",{configurable:!0,enumerable:!0,get:()=>u}))}else"directory"===l.kind&&o&&a.push(...await t(l,o,u,s,r))}catch(e){console.log(e)}}catch(e){console.log(e)}return[...a,...c]};
 /**
  * Opens a directory from disk using the File System Access API.
  * User may specify the file extensions to be scanned.
  * Extensions are passed in as an array of lowercase strings, without the dot.
  * Example: ['jpg', 'png']
  * @type { typeof import("../../index").directoryOpen }
- */export default async(e={extensions:[]},n=(e=>{}))=>{e.recursive=e.recursive||!1;const o=await window.showDirectoryPicker({id:e.id,startIn:e.startIn});return t(o,e.recursive,o.name,e.extensions,n)};
+ */export default async(e={},n=(e=>{}))=>{e.recursive=e.recursive||!1,e.extensions=e.extensions||[];const o=await window.showDirectoryPicker({id:e.id,startIn:e.startIn});return t(o,e.recursive,o.name,e.extensions,n)};
