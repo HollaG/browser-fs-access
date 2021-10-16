@@ -30,10 +30,11 @@ const getFiles = async (
     for await (const entry of dirHandle.values()) {
       try {
         const nestedPath = `${path}/${entry.name}`;
-
+        console.log({ extensions });
         if (entry.kind === 'file') {
           const filePath = '.' + entry.name.split('.').pop().toLowerCase();
-          if (extensions.length && !extensions.includes(filePath)) continue;
+          if (extensions.length && !Array.from(extensions).includes(filePath))
+            continue;
           setProgramStatus(entry.name);
           const file = await promiseTimeoutMjs(1000, entry.getFile());
 
@@ -76,6 +77,7 @@ const getFiles = async (
 export default async (options = {}, setProgramStatus = (status) => {}) => {
   options.recursive = options.recursive || false;
   options.extensions = options.extensions || [];
+  console.log({ options });
   const handle = await window.showDirectoryPicker({
     id: options.id,
     startIn: options.startIn,
