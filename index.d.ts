@@ -126,7 +126,7 @@ export function directoryOpen(
     /** By specifying an ID, the user agent can remember different directories for different IDs. */
     id?: string;
     /** Whether to only include files whose extensions (in lowercase) are specified in the array. **/
-    fileTypes?: string[];
+    extensions?: string[];
     /**
      * Configurable cleanup and `Promise` rejector usable with legacy API for
      * determining when (and reacting if) a user cancels the operation. The

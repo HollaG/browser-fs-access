@@ -21,7 +21,7 @@ const getFiles = async (
   dirHandle,
   recursive,
   path = dirHandle.name,
-  fileTypes = [],
+  extensions = [],
   setProgramStatus
 ) => {
   const dirs = [];
@@ -32,8 +32,8 @@ const getFiles = async (
         const nestedPath = `${path}/${entry.name}`;
 
         if (entry.kind === 'file') {
-          const filePath = entry.name.split('.').pop().toLowerCase();
-          if (fileTypes.length && !fileTypes.includes(filePath)) continue;
+          const filePath = "." + entry.name.split('.').pop().toLowerCase();
+          if (extensions.length && !extensions.includes(filePath)) continue;
           setProgramStatus(entry.name);
           const file = await promiseTimeoutMjs(1000, entry.getFile());
 
@@ -51,7 +51,7 @@ const getFiles = async (
               entry,
               recursive,
               nestedPath,
-              fileTypes,
+              extensions,
               setProgramStatus
             ))
           );
@@ -74,7 +74,7 @@ const getFiles = async (
  * @type { typeof import("../../index").directoryOpen }
  */
 export default async (
-  options = { fileTypes: [] },
+  options = { extensions: [] },
   setProgramStatus = (status) => {}
 ) => {
   options.recursive = options.recursive || false;
@@ -86,7 +86,7 @@ export default async (
     handle,
     options.recursive,
     handle.name,
-    options.fileTypes,
+    options.extensions,
     setProgramStatus
   );
   return files;

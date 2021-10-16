@@ -21,8 +21,8 @@
  * @type { typeof import("../../index").directoryOpen }
  */
 export default async (
-  options = [{}],
-  fileTypes = [],
+  options = [{extensions: []}],
+
   setProgramStatus = (status) => {}
 ) => {
   if (!Array.isArray(options)) {
@@ -47,10 +47,10 @@ export default async (
       }
       let files = Array.from(input.files);
       setProgramStatus('Retrieved files');
-      if (fileTypes.length) {
+      if (options.extensions.length) {
         setProgramStatus('Filtering files');
         files = files.filter((file) => {
-          return fileTypes.includes(file.name.split('.').pop().toLowerCase());
+          return options.extensions.includes("." + file.name.split('.').pop().toLowerCase());
         });
       }
       if (!options[0].recursive) {
