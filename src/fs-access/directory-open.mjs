@@ -74,8 +74,7 @@ const getFiles = async (
  * @type { typeof import("../../index").directoryOpen }
  */
 export default async (
-  options = {},
-  fileTypes = [],
+  options = { fileTypes: [] },
   setProgramStatus = (status) => {}
 ) => {
   options.recursive = options.recursive || false;
@@ -87,7 +86,7 @@ export default async (
     handle,
     options.recursive,
     handle.name,
-    fileTypes,
+    options.fileTypes,
     setProgramStatus
   );
   return files;
